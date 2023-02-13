@@ -1,0 +1,29 @@
+﻿版本号：CTPIIMini API V1.6.2
+后台版本：V1.6.2
+注意：V1.6.2 API连接CTPIIMini后台需为V1.6.2及以上版本。
+
+变更说明：（请各终端厂商根据自身情况进行开发）
+
+本次版本新增加做市商席位连接状态查询接口：
+1）ThostFtdcUserApiStruct.h中修改struct CThostFtdcQryTraderOfferField；
+///查询交易员报盘机
+struct CThostFtdcQryTraderOfferField
+{
+	///交易所代码
+	TThostFtdcExchangeIDType	ExchangeID;
+	///交易所交易员代码
+	TThostFtdcTraderIDType	TraderID;
+};
+
+2）ThostFtdcTraderApi.h 中增加ReqQryTraderOffer及OnRspQryTraderOffer响应接口：
+///请求查询交易员报盘机响应
+virtual void OnRspQryTraderOffer(CThostFtdcTraderOfferField *pTraderOffer, CThostFtdcRspInfoField *pRspInfo, int nRequestID, bool bIsLast) {};
+///请求查询交易员报盘机
+virtual int ReqQryTraderOffer(CThostFtdcQryTraderOfferField *pQryTraderOffer, int nRequestID) = 0;
+
+本功能受后台交易系统配置tserver.ini中的mk_trading_mode=yes（开启做市商功能）影响，没有开启则无法查询。
+
+另外，本版本修复了穿透式监管中windows采集库内存泄漏问题，需要终端开发更新API，重新编译。
+
+
+文档更新日期：2022年8月12日
